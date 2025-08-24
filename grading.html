@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grade Checker</title>
+    <style>
+      button {
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Grade Checker</h2>
+    <input type="number" id="score" placeholder="Enter your score" min="0" max="100">
+    <button onclick="calculate()">Submit</button>
+    <button onclick="window.history.back()">Back</button>
+
+    <!-- Display result here -->
+    <p id="result"></p>
+    <p id="error" style="color: red;"></p>
+
+    <script>
+      function calculate() {
+        let scoreInput = document.getElementById("score");
+        let score = parseInt(scoreInput.value);
+        let result = document.getElementById("result");
+        let error = document.getElementById("error");
+        
+        // Clear previous messages
+        result.textContent = "";
+        error.textContent = "";
+        
+        // Validation
+        if (isNaN(score)) {
+          error.textContent = "Please enter a valid number.";
+          return;
+        }
+        
+        if (score < 0 || score > 100) {
+          error.textContent = "Score must be between 0 and 100";
+          return;
+        }
+
+        if (score > 89) {
+          result.textContent = "Grade A";
+        } else if (score > 79) {
+          result.textContent = "Grade B";
+        } else if (score > 69) {
+          result.textContent = "Grade C";
+        } else {
+          result.textContent = "Grade D";
+        }
+      }
+    </script>
+  </body>
+</html>

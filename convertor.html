@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unit Converter</title>
+  <style>
+    button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Measurement Converter</h2>
+
+  <label for="inputValue">Enter value:</label>
+  <input type="number" id="inputValue" min="0"><br><br>
+
+  <button onclick="inchesToCm()">Inches to CM</button>
+  <button onclick="cmToInches()">CM to Inches</button>
+  <button onclick="window.history.back()">Back</button>
+
+  <p id="result"></p>
+  <p id="error" style="color: red;"></p>
+
+  <script>
+    function validateInput() {
+      const value = document.getElementById("inputValue").value;
+      const error = document.getElementById("error");
+      
+      error.textContent = "";
+      
+      if (!value || value < 0) {
+        error.textContent = "Please enter a valid positive number";
+        return false;
+      }
+      return true;
+    }
+
+    function inchesToCm() {
+      if (!validateInput()) return;
+      
+      var value = document.getElementById("inputValue").value;
+      var cm = value * 2.54;
+      document.getElementById("result").innerHTML = value + " inches = " + cm.toFixed(2) + " cm";
+    }
+
+    function cmToInches() {
+      if (!validateInput()) return;
+      
+      var value = document.getElementById("inputValue").value;
+      var inches = value / 2.54;
+      document.getElementById("result").innerHTML = value + " cm = " + inches.toFixed(2) + " inches";
+    }
+  </script>
+</body>
+</html>

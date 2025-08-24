@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distance to KBU Romklao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            line-height: 1.6;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        #error {
+            color: #e74c3c;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Distance to KBU Romklao Campus</h1>
+    <button onclick="getLocation()">Where am I?</button>
+    <button class="back-btn" onclick="goBack()">Back</button>
+       
+    <p id="result"></p>
+    <p id="error"></p>
+
+    <script>
+        // Coordinates of KBU Romklao Campus
+        const KBU_LAT = 13.7654;
+        const KBU_LONG = 100.7448;
+        
+        // Scale factors for Bangkok area (km per degree)
+        const LAT_SCALE = 111.32;
+        const LONG_SCALE = 102.47;
+
+        function getLocation() {
+            const result = document.getElementById("result");
+            const error = document.getElementById("error");
+            
+            // Clear previous messages
+            result.innerHTML = "";
+            error.innerHTML = "";
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    calculateDistance,
+                    showError,
+                    {timeout: 10000} // 10 second timeout
+                );
+            } else {
+                error.innerHTML = "Geolocation is not supported by your browser.";
+            }
+        }
+
+        function calculateDistance(position) {
+            const userLat = position.coords.latitude;
+            const userLong = position.coords.longitude;
+            
+            // Calculate x and y differences in km
+            const x = (userLong - KBU_LONG) * LONG_SCALE;
+            const y = (userLat - KBU_LAT) * LAT_SCALE;
+            
+            // Calculate distance using the simple formula
+            const distance = Math.sqrt(x*x + y*y);
+            
+            document.getElementById("result").innerHTML = 
+                `You're ${distance.toFixed(2)} km away from KBU Romklao Campus`;
+        }
+
+        function showError(error) {
+            const errorElement = document.getElementById("error");
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorElement.innerHTML = "Please enable location permissions to use this feature.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorElement.innerHTML = "Location information unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    errorElement.innerHTML = "Request timed out. Please try again.";
+                    break;
+                default:
+                    errorElement.innerHTML = "An error occurred while getting your location.";
+            }
+        }
+
+        function goBack() {
+            // Go back to main index page
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
